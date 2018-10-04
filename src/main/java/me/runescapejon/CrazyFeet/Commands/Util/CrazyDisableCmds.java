@@ -8,11 +8,14 @@ import me.runescapejon.CrazyFeet.CrazyFeet;
 import me.runescapejon.CrazyFeet.utils.LanguageUtils;
 import me.runescapejon.CrazyFeet.utils.Pair;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scheduler.Task;
+import org.spongepowered.api.world.World;
 
 public class CrazyDisableCmds implements CommandExecutor {
 
@@ -35,14 +38,6 @@ public class CrazyDisableCmds implements CommandExecutor {
 		final ArrayList<UUID> cHearth = CrazyFeet.getInstance().getCrazyHeartHead();
 		final ArrayList<UUID> cWitchh = CrazyFeet.getInstance().getCrazyWitchHead();
 		final ArrayList<UUID> cglobe = CrazyFeet.getInstance().getCrazyGlobe();
-		final ArrayList<UUID> credhelix = CrazyFeet.getInstance().getCrazyRedHelix();
-		final ArrayList<UUID> cPurplehelix = CrazyFeet.getInstance().getCrazyPurpleHelix();
-		final ArrayList<UUID> corangehelix = CrazyFeet.getInstance().getCrazyOrangeHelix();
-		final ArrayList<UUID> cGreenhelix = CrazyFeet.getInstance().getCrazyGreenHelix();
-		final ArrayList<UUID> cBrownhelix = CrazyFeet.getInstance().getCrazyBrownHelix();
-		final ArrayList<UUID> cwhitehelix = CrazyFeet.getInstance().getCrazyWhiteHelix();
-		final ArrayList<UUID> cYellowhelix = CrazyFeet.getInstance().getCrazyYellowHelix();
-		final ArrayList<UUID> cbluehelix = CrazyFeet.getInstance().getCrazyBlueHelix();
 		final ArrayList<UUID> cstorm = CrazyFeet.getInstance().getCrazyStorm();
 
 		if (!target.isPresent()) {
@@ -72,30 +67,6 @@ public class CrazyDisableCmds implements CommandExecutor {
 				}
 				if (cstorm.contains(player.getUniqueId())) {
 					cstorm.remove(player.getUniqueId());
-				}
-				if (cbluehelix.contains(player.getUniqueId())) {
-					cbluehelix.remove(player.getUniqueId());
-				}
-				if (credhelix.contains(player.getUniqueId())) {
-					credhelix.remove(player.getUniqueId());
-				}
-				if (corangehelix.contains(player.getUniqueId())) {
-					corangehelix.remove(player.getUniqueId());
-				}
-				if (cGreenhelix.contains(player.getUniqueId())) {
-					cGreenhelix.remove(player.getUniqueId());
-				}
-				if (cBrownhelix.contains(player.getUniqueId())) {
-					cBrownhelix.remove(player.getUniqueId());
-				}
-				if (cwhitehelix.contains(player.getUniqueId())) {
-					cwhitehelix.remove(player.getUniqueId());
-				}
-				if (cYellowhelix.contains(player.getUniqueId())) {
-					cYellowhelix.remove(player.getUniqueId());
-				}
-				if (cPurplehelix.contains(player.getUniqueId())) {
-					cPurplehelix.remove(player.getUniqueId());
 				}
 				if (cglobe.contains(player.getUniqueId())) {
 					cglobe.remove(player.getUniqueId());
@@ -148,27 +119,6 @@ public class CrazyDisableCmds implements CommandExecutor {
 			}
 			if (cstorm.contains(targ.getUniqueId())) {
 				cstorm.remove(targ.getUniqueId());
-			}
-			if (cbluehelix.contains(targ.getUniqueId())) {
-				cbluehelix.remove(targ.getUniqueId());
-			}
-			if (credhelix.contains(targ.getUniqueId())) {
-				credhelix.remove(targ.getUniqueId());
-			}
-			if (cYellowhelix.contains(targ.getUniqueId())) {
-				cYellowhelix.remove(targ.getUniqueId());
-			}
-			if (cGreenhelix.contains(targ.getUniqueId())) {
-				cGreenhelix.remove(targ.getUniqueId());
-			}
-			if (cBrownhelix.contains(targ.getUniqueId())) {
-				cBrownhelix.remove(targ.getUniqueId());
-			}
-			if (cwhitehelix.contains(targ.getUniqueId())) {
-				cwhitehelix.remove(targ.getUniqueId());
-			}
-			if (cPurplehelix.contains(targ.getUniqueId())) {
-				cPurplehelix.remove(targ.getUniqueId());
 			}
 			if (cFireh.contains(targ.getUniqueId())) {
 				cFireh.remove(targ.getUniqueId());
