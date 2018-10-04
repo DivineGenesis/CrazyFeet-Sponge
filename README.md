@@ -1,5 +1,9 @@
 # CrazyFeet-Sponge
-Port of CrazyFeet to Sponge by me &lt;3 hope you guys enjoy a particle plugin for sponge, great with EULA!
-##### **Discord Support:** https://discord.gg/tY5wKkS
+Modification of Port of CrazyFeet from RuneScapeJon
 
-Please note that I am not the original developer of crazyfeet; I am simply continuing the plugin. Feel free to make any changes, fork it, etc; as long as it lands in the confines of the original license
+I provide no support for support for this fork
+
+# Changes I have made differing from Original Repo
+I made commands use a "root" command of `/trail` or `/trails`
+I have made helix's use 1 sub command instead of the 7-8 commands it use previously `/trails helix <color>`
+Helix's (temporarily) cannot be player targeted
