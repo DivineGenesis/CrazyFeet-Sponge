@@ -49,15 +49,7 @@ public class CrazyFeet {
     private ArrayList<UUID> crazyNote = new ArrayList<>();
     private ArrayList<UUID> crazyWitch = new ArrayList<>();
     private ArrayList<UUID> crazyHeart = new ArrayList<>();
-    private ArrayList<UUID> bluehelix = new ArrayList<>();
-    private ArrayList<UUID> whitehelix = new ArrayList<>();
-    private ArrayList<UUID> Greenhelix = new ArrayList<>();
-    private ArrayList<UUID> Redhelix = new ArrayList<>();
     private ArrayList<UUID> globe = new ArrayList<>();
-    private ArrayList<UUID> Purplehelix = new ArrayList<>();
-    private ArrayList<UUID> Yellowhelix = new ArrayList<>();
-    private ArrayList<UUID> Orangehelix = new ArrayList<>();
-    private ArrayList<UUID> Brownhelix = new ArrayList<>();
     private ArrayList<UUID> Storm = new ArrayList<>();
     private static CrazyFeet instance;
 
@@ -192,73 +184,8 @@ public class CrazyFeet {
         return crazyHeart;
     }
 
-
-	/*private void BrownHelix(Player player) {
-		helixMath(player,Color.ofRgb(127,85,42));
-	}
-
-    private void YellowHelix(Player player) {
-        helixMath(player,Color.ofRgb(249, 255, 48));
-    }
-
-    private void OrangeHelix(Player player) {
-        helixMath(player,Color.ofRgb(249, 119, 7));
-    }
-
-    private void purpleHelix(Player player) {
-        helixMath(player,Color.ofRgb(255,0,255));
-    }
-
-    private void RedHelix(Player player) {
-        helixMath(player,Color.ofRgb(255,0,0));
-    }
-
-    private void GreenHelix(Player player) {
-        helixMath(Optional.ofNullable(player),Color.ofRgb(2, 255, 15));
-    }
-
-    private void WhiteHelix(Player player) {
-        helixMath(Optional.ofNullable(player),Color.ofRgb(255, 255, 255));
-    }
-
-    private void BlueHelix(Player player) {
-        helixMath(Optional.ofNullable(player),Color.ofRgb(15, 86, 253));
-    } */
-
-    private void superHelix (Optional<Player> player,Color color) {
+    private void helix (Optional<Player> player,Color color) {
         helixMath(player,color);
-    }
-
-    public ArrayList<UUID> getCrazyBrownHelix () {
-        return Brownhelix;
-    }
-
-    public ArrayList<UUID> getCrazyYellowHelix () {
-        return Yellowhelix;
-    }
-
-    public ArrayList<UUID> getCrazyOrangeHelix () {
-        return Orangehelix;
-    }
-
-    public ArrayList<UUID> getCrazyPurpleHelix () {
-        return Purplehelix;
-    }
-
-    public ArrayList<UUID> getCrazyRedHelix () {
-        return Redhelix;
-    }
-
-    public ArrayList<UUID> getCrazyGreenHelix () {
-        return Greenhelix;
-    }
-
-    public ArrayList<UUID> getCrazyWhiteHelix () {
-        return whitehelix;
-    }
-
-    public ArrayList<UUID> getCrazyBlueHelix () {
-        return bluehelix;
     }
 
     public ArrayList<UUID> getCrazyGlobe () {
@@ -352,14 +279,14 @@ public class CrazyFeet {
 
         Task.builder()
                 .interval(63,TimeUnit.MILLISECONDS)
-                .name("superHelix")
+                .name("helix")
                 .execute(() -> {
                     if (!commandLoader.getParticleInfo().isEmpty()) {
                         for (String s : commandLoader.getParticleInfo()) {
                             UUID identity = UUID.fromString(s.substring(0,36));
                             String choice = s.substring(37);
                             if (Sponge.getServer().getPlayer(identity).isPresent()) {
-                                superHelix(Sponge.getServer().getPlayer(identity),colorChoice(choice));
+                                helix(Sponge.getServer().getPlayer(identity),colorChoice(choice));
                             }
                         }
                     }
