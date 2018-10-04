@@ -36,14 +36,6 @@ public class CrazyCheckCommands implements CommandExecutor {
 		final ArrayList<UUID> cHearth = CrazyFeet.getInstance().getCrazyHeartHead();
 		final ArrayList<UUID> cWitchh = CrazyFeet.getInstance().getCrazyWitchHead();
 		final ArrayList<UUID> cglobe = CrazyFeet.getInstance().getCrazyGlobe();
-		final ArrayList<UUID> credhelix = CrazyFeet.getInstance().getCrazyRedHelix();
-		final ArrayList<UUID> cPurplehelix = CrazyFeet.getInstance().getCrazyPurpleHelix();
-		final ArrayList<UUID> corangehelix = CrazyFeet.getInstance().getCrazyOrangeHelix();
-		final ArrayList<UUID> cGreenhelix = CrazyFeet.getInstance().getCrazyGreenHelix();
-		final ArrayList<UUID> cBrownhelix = CrazyFeet.getInstance().getCrazyBrownHelix();
-		final ArrayList<UUID> cwhitehelix = CrazyFeet.getInstance().getCrazyWhiteHelix();
-		final ArrayList<UUID> cYellowhelix = CrazyFeet.getInstance().getCrazyYellowHelix();
-		final ArrayList<UUID> cbluehelix = CrazyFeet.getInstance().getCrazyBlueHelix();
 		final ArrayList<UUID> cstorm = CrazyFeet.getInstance().getCrazyStorm();
 
 		if (!target.isPresent() && !targets.isPresent()) {
@@ -71,30 +63,6 @@ public class CrazyCheckCommands implements CommandExecutor {
 				}
 				if (cstorm.contains(player.getUniqueId())) {
 					player.sendMessage(Text.of("- CrazyStorm"));
-				}
-				if (cbluehelix.contains(player.getUniqueId())) {
-					player.sendMessage(Text.of("- CrazyBlueHelix"));
-				}
-				if (credhelix.contains(player.getUniqueId())) {
-					player.sendMessage(Text.of("- CrazyRedHelix"));
-				}
-				if (cPurplehelix.contains(player.getUniqueId())) {
-					player.sendMessage(Text.of("- CrazyPurpleHelix"));
-				}
-				if (corangehelix.contains(player.getUniqueId())) {
-					player.sendMessage(Text.of("- CrazyOrangenHelix"));
-				}
-				if (cGreenhelix.contains(player.getUniqueId())) {
-					player.sendMessage(Text.of("- CrazyGreenHelix"));
-				}
-				if (cBrownhelix.contains(player.getUniqueId())) {
-					player.sendMessage(Text.of("- CrazyBrownHelix"));
-				}
-				if (cYellowhelix.contains(player.getUniqueId())) {
-					player.sendMessage(Text.of("- CrazyYellowHelix"));
-				}
-				if (cwhitehelix.contains(player.getUniqueId())) {
-					player.sendMessage(Text.of("- CrazyWhiteHelix"));
 				}
 				if (cFireh.contains(player.getUniqueId())) {
 					player.sendMessage(Text.of("- CrazyFireHead"));
@@ -140,14 +108,11 @@ public class CrazyCheckCommands implements CommandExecutor {
 				}
 				if (!cFireh.contains(player.getUniqueId()) && !cHearth.contains(player.getUniqueId())
 						&& !cstorm.contains(player.getUniqueId()) && !cnoteh.contains(player.getUniqueId())
-						&& !cbluehelix.contains(player.getUniqueId()) && !cglobe.contains(player.getUniqueId())
-						&& !cbluehelix.contains(player.getUniqueId()) && !cYellowhelix.contains(player.getUniqueId())
+						&& !cglobe.contains(player.getUniqueId())
 						&& !cWitchh.contains(player.getUniqueId()) && !cSmokeh.contains(player.getUniqueId())
-						&& !cwhitehelix.contains(player.getUniqueId()) && !cMagich.contains(player.getUniqueId())
-						&& !cPearlh.contains(player.getUniqueId()) && !corangehelix.contains(player.getUniqueId())
-						&& !credhelix.contains(player.getUniqueId()) && !cBrownhelix.contains(player.getUniqueId())
+						&& !cMagich.contains(player.getUniqueId())
+						&& !cPearlh.contains(player.getUniqueId())
 						&& !cFire.contains(player.getUniqueId()) && !cHeart.contains(player.getUniqueId())
-						&& !cGreenhelix.contains(player.getUniqueId()) && !cPurplehelix.contains(player.getUniqueId())
 						&& !cnote.contains(player.getUniqueId()) && !cWitch.contains(player.getUniqueId())
 						&& !cSmoke.contains(player.getUniqueId()) && !cMagic.contains(player.getUniqueId())
 						&& !cPearl.contains(player.getUniqueId())) {
@@ -165,30 +130,6 @@ public class CrazyCheckCommands implements CommandExecutor {
 			}
 			if (cstorm.contains(targ.getUniqueId())) {
 				sender.sendMessage(Text.of("- CrazyStorm"));
-			}
-			if (cbluehelix.contains(targ.getUniqueId())) {
-				sender.sendMessage(Text.of("- CrazyBlueHelix"));
-			}
-			if (cBrownhelix.contains(targ.getUniqueId())) {
-				sender.sendMessage(Text.of("- CrazyBrownHelix"));
-			}
-			if (credhelix.contains(targ.getUniqueId())) {
-				sender.sendMessage(Text.of("- CrazyRedHelix"));
-			}
-			if (cYellowhelix.contains(targ.getUniqueId())) {
-				sender.sendMessage(Text.of("- CrazyYellowHelix"));
-			}
-			if (cwhitehelix.contains(targ.getUniqueId())) {
-				sender.sendMessage(Text.of("- CrazyWhiteHelix"));
-			}
-			if (cPurplehelix.contains(targ.getUniqueId())) {
-				sender.sendMessage(Text.of("- CrazyPurpleHelix"));
-			}
-			if (corangehelix.contains(targ.getUniqueId())) {
-				sender.sendMessage(Text.of("- CrazyOrangeHelix"));
-			}
-			if (cGreenhelix.contains(targ.getUniqueId())) {
-				sender.sendMessage(Text.of("- CrazyGreenHelix"));
 			}
 			if (cFireh.contains(targ.getUniqueId())) {
 				sender.sendMessage(Text.of("- CrazyFireHead"));
@@ -234,14 +175,11 @@ public class CrazyCheckCommands implements CommandExecutor {
 			}
 			if (!cFireh.contains(targ.getUniqueId()) && !cHearth.contains(targ.getUniqueId())
 					&& !cstorm.contains(targ.getUniqueId()) && !cnoteh.contains(targ.getUniqueId())
-					&& !cbluehelix.contains(targ.getUniqueId()) && !cglobe.contains(targ.getUniqueId())
-					&& !cbluehelix.contains(targ.getUniqueId()) && !cYellowhelix.contains(targ.getUniqueId())
+					&& !cglobe.contains(targ.getUniqueId())
 					&& !cWitchh.contains(targ.getUniqueId()) && !cSmokeh.contains(targ.getUniqueId())
-					&& !cwhitehelix.contains(targ.getUniqueId()) && !cMagich.contains(targ.getUniqueId())
-					&& !cPearlh.contains(targ.getUniqueId()) && !corangehelix.contains(targ.getUniqueId())
-					&& !credhelix.contains(targ.getUniqueId()) && !cBrownhelix.contains(targ.getUniqueId())
+					&& !cMagich.contains(targ.getUniqueId())
+					&& !cPearlh.contains(targ.getUniqueId())
 					&& !cFire.contains(targ.getUniqueId()) && !cHeart.contains(targ.getUniqueId())
-					&& !cGreenhelix.contains(targ.getUniqueId()) && !cPurplehelix.contains(targ.getUniqueId())
 					&& !cnote.contains(targ.getUniqueId()) && !cWitch.contains(targ.getUniqueId())
 					&& !cSmoke.contains(targ.getUniqueId()) && !cMagic.contains(targ.getUniqueId())
 					&& !cPearl.contains(targ.getUniqueId())) {
