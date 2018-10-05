@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import me.runescapejon.CrazyFeet.Commands.Util.CrazyCheckCommands;
 import me.runescapejon.CrazyFeet.Commands.Util.CrazyDisableCmds;
 import me.runescapejon.CrazyFeet.Commands.head.*;
+import me.runescapejon.CrazyFeet.messages;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
@@ -181,13 +182,7 @@ public class commandLoader {
                             GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
             .executor(new CrazyDisableCmds()).build();
 
-    private CommandSpec CrazyRingSpec = CommandSpec.builder()
-            .description(Text.of("crazyglobe to enable/disable globe particles")).permission("crazyfeet.crazyglobe")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyGlobeCommands()).build();
+
 
     private CommandSpec CrazyhelixmenuSpec = CommandSpec.builder()
             .description(Text.of("crazyguihelix access Gui for helixes colors")).executor(new HelixGUICommand())
@@ -207,17 +202,31 @@ public class commandLoader {
                             GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
             .executor(new CrazyStormCommand()).build();
 
+    private CommandSpec disable = CommandSpec.builder()
+            .description(Text.of("Disables particles"))
+            .permission("crazyfeet.disable")
+            .executor(new disableTrails())
+            .build();
+
+    private CommandSpec Globe = CommandSpec.builder()
+            .description(Text.of("crazyglobe to enable/disable globe particles"))
+            .permission("crazyfeet.globe")
+            .arguments(GenericArguments.string(Text.of(messages.commandKey)))
+            .executor(new globe())
+            .build();
+
+
     private CommandSpec Helix = CommandSpec.builder()
-            .description(Text.of("test"))
-            .permission("crazyFeet.superHelix")
-            .arguments(GenericArguments.string(Text.of("color")))
-            .executor(this::superHelix)
+            .description(Text.of("Creates a helix around the player of selected color"))
+            .permission("crazyFeet.helix")
+            .arguments(GenericArguments.string(Text.of(messages.commandKey)))
+            .executor(new helix())
             .build();
 
 
     public CommandSpec crazyRoot = CommandSpec.builder()
             .description(Text.of("Root command for Crazyfeet"))
-            .executor(this::help)
+            .executor(new help())
             .permission("crazyfeet.base")
             .child(CrazystormSpec,"storm")
             .child(CrazyCheckSpec,"check")
@@ -234,7 +243,7 @@ public class commandLoader {
             .child(CrazyNoteSpec,"note")
             .child(CrazyPearlHeadSpec,"pearlHead")
             .child(CrazypearlSpec,"pearl")
-            .child(CrazyRingSpec,"ring")
+            .child(Globe,"globe","ring")
             .child(CrazySmokeHeadSpec,"smokeHead")
             .child(CrazySmokeSpec,"smoke")
             .child(CrazyWitchHeadSpec,"witchHead")
@@ -242,75 +251,6 @@ public class commandLoader {
             .child(reload,"reload")
             .child(gui,"gui")
             .child(Helix,"helix")
+            .child(disable,"disable","remove","stop","none","off")
             .build();
-
-    private CommandResult help (CommandSource src,CommandContext args) {
-        List<Text> commandHelp = Lists.newArrayList();
-        commandHelp.add(helpTextStructure("menu","Opens a menu for trails"));
-
-        PaginationList.builder()
-                .title(Text.of(TextColors.GOLD,"BetterSoulbinding Help Menu"))
-                .padding(Text.of(TextColors.GREEN,TextStyles.STRIKETHROUGH,'='))
-                .contents(commandHelp)
-                .sendTo(src);
-        return CommandResult.success();
-    }
-    private Text helpTextStructure (String command,String reason) {
-        return Text.of(TextColors.GREEN,Text.builder(command).onClick(TextActions.suggestCommand("/crazy " + command)),
-                TextColors.DARK_GRAY,TextStyles.ITALIC," - ",reason);
-    }
-
-    private static ArrayList<String> particleInfo = new ArrayList<>();
-    private List<String> colors = Arrays.asList("red","blue","green","yellow","orange","white","brown","purple","black");
-
-    private CommandResult superHelix (CommandSource src,CommandContext args) {
-        Player player = (Player) src;
-        String identity = player.getUniqueId().toString();
-        String color = args.requireOne("color");
-        if(getColors().contains(color.toLowerCase())) {
-            if (!identityExists(identity)) {
-                getParticleInfo().add(identity + "-" + color);
-            } else if (identityExists(identity) && !stringExists(identity,color)) {
-                for (String s : getParticleInfo()) {
-                    if (s.startsWith(identity)) {
-                        getParticleInfo().remove(s);
-                        break;
-                    }
-                }
-                getParticleInfo().add(identity + "-" + color);
-            }
-            return CommandResult.success();
-        }
-        player.sendMessage(Text.of(TextColors.RED,"Invalid Choice! Available colors are\n" + colors.toString()));
-        return CommandResult.success();
-    }
-
-    private boolean identityExists (String identity) {
-        for(String s: getParticleInfo()) {
-            if(s.startsWith(identity)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean stringExists (String identity, String color) {
-        for(String s: getParticleInfo()) {
-            if(s.matches(identity+"-"+color)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static ArrayList<String> getParticleInfo () {
-        return particleInfo;
-    }
-
-    private List<String> getColors () {
-        return colors;
-    }
-
-
-
 }

@@ -221,7 +221,7 @@ public class CrazyFeet {
         }
     }
 
-    private void StyleGlobe (Player player) {
+    private void StyleGlobe (Optional<Player> player,Color c) {
         pi += Math.PI / 10;
         for (double theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 40) {
             double r = 1.5;
@@ -230,11 +230,11 @@ public class CrazyFeet {
             double z = r * Math.sin(theta) * Math.sin(pi);
 
             // double z = r*Math.sin(theta)+Math.sin(pi);
-            World world = player.getWorld();
+            World world = player.get().getWorld();
             world.spawnParticles(
                     ParticleEffect.builder().type(ParticleTypes.REDSTONE_DUST)
-                            .option(ParticleOptions.COLOR,Color.ofRgb(255,0,0)).build(),
-                    player.getLocation().getPosition().add(x,y,z));
+                            .option(ParticleOptions.COLOR,c).build(),
+                    player.get().getLocation().getPosition().add(x,y,z));
 
         }
     }
@@ -257,7 +257,7 @@ public class CrazyFeet {
 
     @Listener
     public void onServerStart (GameStartedServerEvent event) {
-        Task.builder()
+        /*Task.builder()
                 .interval(63,TimeUnit.MILLISECONDS)
                 .name("globe")
                 .execute(() -> {
@@ -265,7 +265,7 @@ public class CrazyFeet {
                         globe.forEach(uuid -> Sponge.getServer().getPlayer(uuid).ifPresent(this::StyleGlobe));
                     }
                 })
-                .submit(this);
+                .submit(this);*/
 
         Task.builder()
                 .intervalTicks(1)
@@ -281,8 +281,8 @@ public class CrazyFeet {
                 .interval(63,TimeUnit.MILLISECONDS)
                 .name("helix")
                 .execute(() -> {
-                    if (!commandLoader.getParticleInfo().isEmpty()) {
-                        for (String s : commandLoader.getParticleInfo()) {
+                    if (!helix.getParticleInfo().isEmpty()) {
+                        for (String s : helix.getParticleInfo()) {
                             UUID identity = UUID.fromString(s.substring(0,36));
                             String choice = s.substring(37);
                             if (Sponge.getServer().getPlayer(identity).isPresent()) {
@@ -292,10 +292,24 @@ public class CrazyFeet {
                     }
                 })
                 .submit(this);
+
+
+        Task.builder()
+                .interval(63,TimeUnit.MILLISECONDS)
+                .name("superglobe")
+                .execute(() -> {
+                    if (!me.runescapejon.CrazyFeet.Commands.globe.getParticleInfo().isEmpty()) {
+                        for (String s : me.runescapejon.CrazyFeet.Commands.globe.getParticleInfo()) {
+                            UUID identity = UUID.fromString(s.substring(0,36));
+                            String choice = s.substring(37);
+                            if (Sponge.getServer().getPlayer(identity).isPresent()) {
+                                StyleGlobe(Sponge.getServer().getPlayer(identity),colorChoice(choice));
+                            }
+                        }
+                    }
+                })
+                .submit(this);
     }
-
-
-
 
     private Color colorChoice (String choice) {
         switch (choice.toLowerCase()) {
