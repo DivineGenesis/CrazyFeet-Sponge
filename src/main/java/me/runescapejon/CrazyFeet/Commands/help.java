@@ -19,6 +19,8 @@ public class help implements CommandExecutor {
     public CommandResult execute (CommandSource src,CommandContext args) throws CommandException {
         List<Text> commandHelp = Lists.newArrayList();
         commandHelp.add(helpTextStructure("helix <color>","Creates a helix trail for you"));
+        commandHelp.add(helpTextStructure("globe <color>", "Creates a globe trail for you"));
+        commandHelp.add(helpTextStructure("disable","turns off all trails"));
 
         PaginationList.builder()
                 .title(Text.of(TextColors.GOLD,"CrazyFeet Help Menu"))
