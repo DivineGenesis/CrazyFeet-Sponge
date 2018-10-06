@@ -1,19 +1,18 @@
 package me.runescapejon.CrazyFeet.Commands.Util;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
-
 import me.runescapejon.CrazyFeet.CrazyFeet;
 import me.runescapejon.CrazyFeet.utils.LanguageUtils;
 import me.runescapejon.CrazyFeet.utils.Pair;
-
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
 
 public class CrazyCheckCommands implements CommandExecutor {
 
@@ -26,7 +25,6 @@ public class CrazyCheckCommands implements CommandExecutor {
 		final ArrayList<UUID> cMagic = CrazyFeet.getInstance().getCrazyMagic();
 		final ArrayList<UUID> cPearl = CrazyFeet.getInstance().getCrazyPearl();
 		final ArrayList<UUID> cnote = CrazyFeet.getInstance().getCrazyNote();
-		final ArrayList<UUID> cHeart = CrazyFeet.getInstance().getCrazyHeart();
 		final ArrayList<UUID> cWitch = CrazyFeet.getInstance().getCrazyWitch();
 		final ArrayList<UUID> cFireh = CrazyFeet.getInstance().getCrazyFireHead();
 		final ArrayList<UUID> cSmokeh = CrazyFeet.getInstance().getCrazySmokeHead();
@@ -91,9 +89,6 @@ public class CrazyCheckCommands implements CommandExecutor {
 				if (cSmoke.contains(player.getUniqueId())) {
 					player.sendMessage(Text.of("- CrazySmoke"));
 				}
-				if (cHeart.contains(player.getUniqueId())) {
-					player.sendMessage(Text.of("- CrazyHeart"));
-				}
 				if (cMagic.contains(player.getUniqueId())) {
 					player.sendMessage(Text.of("- CrazyMagic"));
 				}
@@ -112,7 +107,7 @@ public class CrazyCheckCommands implements CommandExecutor {
 						&& !cWitchh.contains(player.getUniqueId()) && !cSmokeh.contains(player.getUniqueId())
 						&& !cMagich.contains(player.getUniqueId())
 						&& !cPearlh.contains(player.getUniqueId())
-						&& !cFire.contains(player.getUniqueId()) && !cHeart.contains(player.getUniqueId())
+						&& !cFire.contains(player.getUniqueId())
 						&& !cnote.contains(player.getUniqueId()) && !cWitch.contains(player.getUniqueId())
 						&& !cSmoke.contains(player.getUniqueId()) && !cMagic.contains(player.getUniqueId())
 						&& !cPearl.contains(player.getUniqueId())) {
@@ -167,9 +162,6 @@ public class CrazyCheckCommands implements CommandExecutor {
 			if (cnote.contains(targ.getUniqueId())) {
 				sender.sendMessage(Text.of("- Crazynote"));
 			}
-			if (cHeart.contains(targ.getUniqueId())) {
-				sender.sendMessage(Text.of("- CrazyHeart"));
-			}
 			if (cPearl.contains(targ.getUniqueId())) {
 				sender.sendMessage(Text.of("- CrazyPearl"));
 			}
@@ -179,7 +171,7 @@ public class CrazyCheckCommands implements CommandExecutor {
 					&& !cWitchh.contains(targ.getUniqueId()) && !cSmokeh.contains(targ.getUniqueId())
 					&& !cMagich.contains(targ.getUniqueId())
 					&& !cPearlh.contains(targ.getUniqueId())
-					&& !cFire.contains(targ.getUniqueId()) && !cHeart.contains(targ.getUniqueId())
+					&& !cFire.contains(targ.getUniqueId())
 					&& !cnote.contains(targ.getUniqueId()) && !cWitch.contains(targ.getUniqueId())
 					&& !cSmoke.contains(targ.getUniqueId()) && !cMagic.contains(targ.getUniqueId())
 					&& !cPearl.contains(targ.getUniqueId())) {

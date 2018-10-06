@@ -1,13 +1,11 @@
 package me.runescapejon.CrazyFeet;
 
-import java.io.File;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 import com.google.inject.Inject;
 import me.runescapejon.CrazyFeet.Commands.*;
+import me.runescapejon.CrazyFeet.Commands.Util.CrazyFeetAdminCmd;
+import me.runescapejon.CrazyFeet.Commands.Util.CrazyFeetCommands;
+import me.runescapejon.CrazyFeet.Listeners.CrazyListener;
 import me.runescapejon.CrazyFeet.utils.Config;
-
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -28,9 +26,9 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.Color;
 import org.spongepowered.api.world.World;
 
-import me.runescapejon.CrazyFeet.Commands.Util.CrazyFeetAdminCmd;
-import me.runescapejon.CrazyFeet.Commands.Util.CrazyFeetCommands;
-import me.runescapejon.CrazyFeet.Listeners.CrazyListener;
+import java.io.File;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Plugin(id = "crazyfeetsponge", name = "CrazyFeetSponge", authors = {
 		"runescapejon" }, description = "CrazyFeet Ported over to Sponge", version = "1.14")
@@ -48,7 +46,6 @@ public class CrazyFeet {
     private ArrayList<UUID> crazyPearl = new ArrayList<>();
     private ArrayList<UUID> crazyNote = new ArrayList<>();
     private ArrayList<UUID> crazyWitch = new ArrayList<>();
-    private ArrayList<UUID> crazyHeart = new ArrayList<>();
     private ArrayList<UUID> globe = new ArrayList<>();
     private ArrayList<UUID> Storm = new ArrayList<>();
     private static CrazyFeet instance;
@@ -180,9 +177,6 @@ public class CrazyFeet {
         return crazyWitch;
     }
 
-    public ArrayList<UUID> getCrazyHeart () {
-        return crazyHeart;
-    }
 
     private void helix (Optional<Player> player,Color color) {
         helixMath(player,color);

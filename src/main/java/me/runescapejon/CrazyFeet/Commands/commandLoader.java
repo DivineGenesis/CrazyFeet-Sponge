@@ -1,25 +1,12 @@
 package me.runescapejon.CrazyFeet.Commands;
 
-import com.google.common.collect.Lists;
 import me.runescapejon.CrazyFeet.Commands.Util.CrazyCheckCommands;
 import me.runescapejon.CrazyFeet.Commands.Util.CrazyDisableCmds;
 import me.runescapejon.CrazyFeet.Commands.head.*;
 import me.runescapejon.CrazyFeet.messages;
-import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.action.TextActions;
-import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.text.format.TextStyles;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class commandLoader {
 
@@ -81,15 +68,11 @@ public class commandLoader {
                             GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
             .executor(new CrazyMagicHeadCommand()).build();
 
-    // CrazyHeartHead <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyHeartHeadSpec = CommandSpec.builder()
+    private CommandSpec hearts = CommandSpec.builder()
             .description(Text.of("crazyfire to enable/disable fire Head particles"))
-            .permission("crazyfeet.crazyfirehead")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyHeartHeadCommand()).build();
+            .permission("crazyfeet.hearts")
+            .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
+            .executor(new hearts()).build();
 
     // CrazyFireHead <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec CrazyFireHeadSpec = CommandSpec.builder()
@@ -127,15 +110,6 @@ public class commandLoader {
                             GenericArguments.optional(GenericArguments.player(Text.of("target"))),
                             GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
             .executor(new CrazyMagicCommands()).build();
-
-    // Crazyheart <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyHeartSpec = CommandSpec.builder()
-            .description(Text.of("crazymagic to enable/disable heart particles")).permission("crazyfeet.crazyheart")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyHeartCommands()).build();
 
     // CrazySmoke <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec CrazySmokeSpec = CommandSpec.builder()
@@ -211,7 +185,7 @@ public class commandLoader {
     private CommandSpec Globe = CommandSpec.builder()
             .description(Text.of("crazyglobe to enable/disable globe particles"))
             .permission("crazyfeet.globe")
-            .arguments(GenericArguments.string(Text.of(messages.commandKey)))
+            .arguments(GenericArguments.string(Text.of(messages.colorCommandKey)))
             .executor(new globe())
             .build();
 
@@ -219,7 +193,7 @@ public class commandLoader {
     private CommandSpec Helix = CommandSpec.builder()
             .description(Text.of("Creates a helix around the player of selected color"))
             .permission("crazyFeet.helix")
-            .arguments(GenericArguments.string(Text.of(messages.commandKey)))
+            .arguments(GenericArguments.string(Text.of(messages.colorCommandKey)))
             .executor(new helix())
             .build();
 
@@ -233,8 +207,7 @@ public class commandLoader {
             .child(CrazyDisableSpec,"disable","remove")
             .child(CrazyFireHeadSpec,"fireHead")
             .child(CrazyFireSpec,"fire")
-            .child(CrazyHeartHeadSpec,"heartHead")
-            .child(CrazyHeartSpec,"heart")
+            .child(hearts,"hearts","heart")
             .child(CrazyGui2Spec,"gui2")
             .child(CrazyhelixmenuSpec,"helixMenu")
             .child(CrazyMagicHeadSpec,"magicHead")

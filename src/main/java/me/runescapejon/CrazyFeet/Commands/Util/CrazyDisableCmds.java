@@ -1,21 +1,17 @@
 package me.runescapejon.CrazyFeet.Commands.Util;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
-
 import me.runescapejon.CrazyFeet.CrazyFeet;
 import me.runescapejon.CrazyFeet.utils.LanguageUtils;
 import me.runescapejon.CrazyFeet.utils.Pair;
-
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.scheduler.Task;
-import org.spongepowered.api.world.World;
+
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
 
 public class CrazyDisableCmds implements CommandExecutor {
 
@@ -28,7 +24,6 @@ public class CrazyDisableCmds implements CommandExecutor {
 		final ArrayList<UUID> cMagic = CrazyFeet.getInstance().getCrazyMagic();
 		final ArrayList<UUID> cPearl = CrazyFeet.getInstance().getCrazyPearl();
 		final ArrayList<UUID> cnote = CrazyFeet.getInstance().getCrazyNote();
-		final ArrayList<UUID> cHeart = CrazyFeet.getInstance().getCrazyHeart();
 		final ArrayList<UUID> cWitch = CrazyFeet.getInstance().getCrazyWitch();
 		final ArrayList<UUID> cFireh = CrazyFeet.getInstance().getCrazyFireHead();
 		final ArrayList<UUID> cSmokeh = CrazyFeet.getInstance().getCrazySmokeHead();
@@ -95,9 +90,6 @@ public class CrazyDisableCmds implements CommandExecutor {
 				if (cSmoke.contains(player.getUniqueId())) {
 					cSmoke.remove(player.getUniqueId());
 				}
-				if (cHeart.contains(player.getUniqueId())) {
-					cHeart.remove(player.getUniqueId());
-				}
 				if (cWitch.contains(player.getUniqueId())) {
 					cWitch.remove(player.getUniqueId());
 				}
@@ -149,9 +141,6 @@ public class CrazyDisableCmds implements CommandExecutor {
 			}
 			if (cMagic.contains(targ.getUniqueId())) {
 				cMagic.remove(targ.getUniqueId());
-			}
-			if (cHeart.contains(targ.getUniqueId())) {
-				cHeart.remove(targ.getUniqueId());
 			}
 			if (cWitch.contains(targ.getUniqueId())) {
 				cWitch.remove(targ.getUniqueId());

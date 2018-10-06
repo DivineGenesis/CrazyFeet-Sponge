@@ -19,7 +19,8 @@ public class help implements CommandExecutor {
     public CommandResult execute (CommandSource src,CommandContext args) throws CommandException {
         List<Text> commandHelp = Lists.newArrayList();
         commandHelp.add(helpTextStructure("helix <color>","Creates a helix trail for you"));
-        commandHelp.add(helpTextStructure("globe <color>", "Creates a globe trail for you"));
+        commandHelp.add(helpTextStructure("globe <color>","Creates a globe trail for you"));
+        commandHelp.add(helpTextStructure("hearts","Creates a heart trail"));
         commandHelp.add(helpTextStructure("disable","turns off all trails"));
 
         PaginationList.builder()
@@ -31,7 +32,7 @@ public class help implements CommandExecutor {
     }
 
     private Text helpTextStructure (String command,String reason) {
-        return Text.of(TextColors.GREEN,Text.builder(command).onClick(TextActions.suggestCommand("/trail " + command)),
-                TextColors.DARK_GRAY,TextStyles.ITALIC," - ",reason);
+        return Text.of(TextColors.GREEN,Text.builder(command).onClick(TextActions.suggestCommand("/trails " + command)),
+                TextColors.GRAY,TextStyles.ITALIC," - ",reason);
     }
 }

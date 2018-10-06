@@ -8,28 +8,27 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 import java.util.ArrayList;
 
-public class globe implements CommandExecutor {
-    private static ArrayList<String> globeParticleInfo = new ArrayList<>();
+public class hearts implements CommandExecutor {
+    private static ArrayList<String> particleInfo = new ArrayList<>();
 
     @Override
     public CommandResult execute (CommandSource src,CommandContext args) throws CommandException {
-        String color = args.requireOne(messages.colorCommandKey);
-
+        String bodyType = args.requireOne(messages.bodyCommandKey);
         if (src instanceof Player) {
-            if (commandUtil.invalidCommand(src,getParticleInfo(),color)) {
-                src.sendMessage(Text.of(TextColors.RED,"Invalid Choice! Available colors are\n" + commandUtil.getColors().toString()));
+            if (commandUtil.invalidCommand(src,getParticleInfo(),bodyType)) {
+                src.sendMessage(Text.of(messages.bodyError));
             }
         }
         return CommandResult.success();
-
     }
 
     public static ArrayList<String> getParticleInfo () {
-        return globeParticleInfo;
+        return particleInfo;
     }
+
 }
+
 

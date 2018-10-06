@@ -1,5 +1,7 @@
 package me.runescapejon.CrazyFeet.Listeners;
 
+import me.runescapejon.CrazyFeet.Commands.hearts;
+import me.runescapejon.CrazyFeet.CrazyFeet;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.NotePitch;
 import org.spongepowered.api.data.type.NotePitches;
@@ -11,42 +13,45 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.Root;
-
-import me.runescapejon.CrazyFeet.CrazyFeet;
-
-
 import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 public class CrazyListener {
-	// It's seem getPosition().add(0, 3, 0,) seem the right location for the
-	// Head
-	// - tested 2.5 is right
 	@Listener
-	public void onMoveHead (MoveEntityEvent event,@Root Player player) {
+	public void onMove (MoveEntityEvent event,@Root Player player) {
 		if (player.get(Keys.INVISIBLE).get()) {
 			return;
 		}
+		World world = player.getWorld();
+
+		for (String s : hearts.getParticleInfo()) {
+			UUID identity = UUID.fromString(s.substring(0,36));
+			String choice = s.substring(37);
+			if (player.getUniqueId().equals(identity)) {
+				applyParticle(world,player,ParticleTypes.HEART,false,Double.valueOf(choice));
+			}
+		}
+
+
 		double head = 2.5;
 		double feet = 0.1;
 		boolean fire = CrazyFeet.getInstance().getCrazyFire().contains(player.getUniqueId()),
 				note = CrazyFeet.getInstance().getCrazyNote().contains(player.getUniqueId()),
 				magic = CrazyFeet.getInstance().getCrazyMagic().contains(player.getUniqueId()),
 				smoke = CrazyFeet.getInstance().getCrazySmoke().contains(player.getUniqueId()),
-				heart = CrazyFeet.getInstance().getCrazyHeart().contains(player.getUniqueId()),
 				pearl = CrazyFeet.getInstance().getCrazyPearl().contains(player.getUniqueId()),
 				witch = CrazyFeet.getInstance().getCrazyWitch().contains(player.getUniqueId()),
 				fireHead = CrazyFeet.getInstance().getCrazyFireHead().contains(player.getUniqueId()),
 				noteHead = CrazyFeet.getInstance().getCrazyNoteHead().contains(player.getUniqueId()),
 				magicHead = CrazyFeet.getInstance().getCrazyMagicHead().contains(player.getUniqueId()),
 				smokeHead = CrazyFeet.getInstance().getCrazySmokeHead().contains(player.getUniqueId()),
-				heartHead = CrazyFeet.getInstance().getCrazyHeartHead().contains(player.getUniqueId()),
 				pearlHead = CrazyFeet.getInstance().getCrazyPearlHead().contains(player.getUniqueId()),
 				witchHead = CrazyFeet.getInstance().getCrazyWitchHead().contains(player.getUniqueId());
 
-		World world = player.getWorld();
+
 		if (note) {
 			// Thanks to @Cybermaxke for telling me how to change colors
 			applyParticle(world,player,ParticleTypes.NOTE,true,feet);
@@ -59,9 +64,6 @@ public class CrazyListener {
 		}
 		if (smoke) {
 			applyParticle(world,player,ParticleTypes.SMOKE,false,feet);
-		}
-		if (heart) {
-			applyParticle(world,player,ParticleTypes.HEART,false,feet);
 		}
 		if (pearl) {
 			applyParticle(world,player,ParticleTypes.ENDER_TELEPORT,false,feet);
@@ -80,9 +82,6 @@ public class CrazyListener {
 		}
 		if (smokeHead) {
 			applyParticle(world,player,ParticleTypes.SMOKE,false,head);
-		}
-		if (heartHead) {
-			applyParticle(world,player,ParticleTypes.HEART,false,head);
 		}
 		if (pearlHead) {
 			applyParticle(world,player,ParticleTypes.ENDER_TELEPORT,false,head);

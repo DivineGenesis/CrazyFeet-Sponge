@@ -18,12 +18,13 @@ public class helix implements CommandExecutor {
 
     @Override
     public CommandResult execute (CommandSource src,CommandContext args) throws CommandException {
-        Player player = (Player) src;
-        String identity = player.getUniqueId().toString();
-        String color = args.requireOne(messages.commandKey);
-        if(commandUtil.invalidCommand(color,identity,getParticleInfo())) {
-            player.sendMessage(Text.of(TextColors.RED,messages.colorError));
+        String color = args.requireOne(messages.colorCommandKey);
+        if (src instanceof Player) {
+            if (commandUtil.invalidCommand(src,getParticleInfo(),color)) {
+                src.sendMessage(Text.of(TextColors.RED,messages.colorError));
+            }
         }
+
         return CommandResult.success();
     }
 
