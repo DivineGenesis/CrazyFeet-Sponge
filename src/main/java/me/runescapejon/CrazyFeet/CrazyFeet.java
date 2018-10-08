@@ -1,29 +1,22 @@
 package me.runescapejon.CrazyFeet;
 
-import com.google.inject.Inject;
-import me.runescapejon.CrazyFeet.Commands.*;
+import me.runescapejon.CrazyFeet.Commands.commandLoader;
+import me.runescapejon.CrazyFeet.Commands.commandUtil;
+import me.runescapejon.CrazyFeet.Commands.storm;
 import me.runescapejon.CrazyFeet.Listeners.CrazyListener;
-import me.runescapejon.CrazyFeet.utils.Config;
-import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleOptions;
 import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.game.state.GameConstructionEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
-import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.util.Color;
 import org.spongepowered.api.world.World;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,81 +25,44 @@ import java.util.concurrent.TimeUnit;
 @Plugin(id = "crazyfeetsponge", name = "CrazyFeetSponge", authors = {
 		"runescapejon" }, description = "CrazyFeet Ported over to Sponge", version = "1.14")
 public class CrazyFeet {
-    private ArrayList<UUID> Storm = new ArrayList<>();
-    private static CrazyFeet instance;
-
-    public static CrazyFeet getInstance () {
-        return instance;
-    }
-
-    @Inject
-    private Logger logger;
-
-    @Inject ()
-    @ConfigDir (sharedRoot = false)
-    private File configDirectory;
-
-    private Config languageConfig = new Config("language.conf",false);
 
     @Listener
-    public void onConstruct (GameConstructionEvent event) {
-        instance = this;
-    }
-
-    private static PluginContainer plugin;
-
-    @Listener
-    public void onPreInitializationEvent (GamePreInitializationEvent event) {
-        plugin = Sponge.getPluginManager().getPlugin("crazyfeetsponge").get();
-        instance = this;
-    }
-
-    public static PluginContainer getPlugin () {
-        return plugin;
+    public void onGameInit (GameInitializationEvent event) {
+        Sponge.getEventManager().registerListeners(this,new CrazyListener());
+        Sponge.getCommandManager().register(this,new commandLoader().crazyRoot,"trail","trails","crazy");
     }
 
     @Listener
-    public void onGamePreInitialization (GamePreInitializationEvent event) {
-        if (!configDirectory.exists()) {
-            configDirectory.mkdirs();
-        }
-        languageConfig.activate();
-    }
+    public void onServerStart (GameStartedServerEvent event) {
 
-    @Listener
-    public void onGameInitlization (GameInitializationEvent event) {
-        // CrazyHeadListener Registering here
-        CrazyListener head = new CrazyListener();
-        Sponge.getEventManager().registerListeners(this,head);
+        Task.builder()
+                .intervalTicks(1)
+                .execute(() -> {
+                    if (!storm.getCrazyStorm().isEmpty()) {
+                        storm.getCrazyStorm().forEach(uuid -> Sponge.getServer().getPlayer(uuid).ifPresent(this::Cloud));
+                        storm.getCrazyStorm().forEach(uuid -> Sponge.getServer().getPlayer(uuid).ifPresent(this::Rain));
+                    }
+                })
+                .submit(this);
 
-        Sponge.getEventManager().registerListeners(this,new GuiCommand());
-
-        Sponge.getEventManager().registerListeners(this,new HelixGUICommand());
-
-        Sponge.getEventManager().registerListeners(this,new GuiPage2Cmd());
-
-        Sponge.getCommandManager().register(this,new commandLoader().crazyRoot,"trail","trails");
-    }
-
-    public Logger getLogger () {
-        return logger;
-    }
-
-    public File getConfigDirectory () {
-        return configDirectory;
-    }
-
-    public Config getLanguageConfig () {
-        return languageConfig;
-    }
-
-
-    private void helix (Optional<Player> player,Color color) {
-        helixMath(player,color);
-    }
-
-    public ArrayList<UUID> getCrazyStorm () {
-        return Storm;
+        Task.builder()
+                .interval(63,TimeUnit.MILLISECONDS)
+                .name("superglobe")
+                .execute(() -> {
+                    for (UUID uuid : commandUtil.getUuidStringMap().keySet()) {
+                        if (Sponge.getServer().getPlayer(uuid).isPresent()) {
+                            HashMap<HashMap<UUID, String>, String> map = commandUtil.getStringHashMap();
+                            String innerMap = map.get(commandUtil.getUuidStringMap());
+                            String color = commandUtil.getUuidStringMap().get(uuid);
+                            if (innerMap.equals("globe")) {
+                                StyleGlobe(Sponge.getServer().getPlayer(uuid),colorChoice(color));
+                            } else if (innerMap.equals("helix")) {
+                                helix(Sponge.getServer().getPlayer(uuid),colorChoice(color));
+                            }
+                        }
+                    }
+                })
+                .submit(this);
     }
 
     private void cloudMath (Player player,double x,double y,double z) {
@@ -132,6 +88,10 @@ public class CrazyFeet {
 
             }
         }
+    }
+
+    private void helix (Optional<Player> player,Color color) {
+        helixMath(player,color);
     }
 
     private void StyleGlobe (Optional<Player> player,Color c) {
@@ -166,55 +126,6 @@ public class CrazyFeet {
 
     private double phi = 0;
     private double pi = 0;
-
-    @Listener
-    public void onServerStart (GameStartedServerEvent event) {
-
-        Task.builder()
-                .intervalTicks(1)
-                .execute(() -> {
-                    if (!Storm.isEmpty()) {
-                        Storm.forEach(uuid -> Sponge.getServer().getPlayer(uuid).ifPresent(this::Cloud));
-                        Storm.forEach(uuid -> Sponge.getServer().getPlayer(uuid).ifPresent(this::Rain));
-                    }
-                })
-                .submit(this);
-
-        Task.builder()
-                .interval(63,TimeUnit.MILLISECONDS)
-                .name("helix")
-                .execute(() -> {
-                    for (UUID uuid : commandUtil.getUuidStringMap().keySet()) {
-                        if (Sponge.getServer().getPlayer(uuid).isPresent()) {
-                            HashMap<HashMap<UUID, String>, String> map = commandUtil.getStringHashMap();
-                            String innerMap = map.get(commandUtil.getUuidStringMap());
-                            String color = commandUtil.getUuidStringMap().get(uuid);
-                            if (innerMap.equals("helix")) {
-                                helix(Sponge.getServer().getPlayer(uuid),colorChoice(color));
-                            }
-                        }
-                    }
-                })
-                .submit(this);
-
-
-        Task.builder()
-                .interval(63,TimeUnit.MILLISECONDS)
-                .name("superglobe")
-                .execute(() -> {
-                    for (UUID uuid : commandUtil.getUuidStringMap().keySet()) {
-                        if (Sponge.getServer().getPlayer(uuid).isPresent()) {
-                            HashMap<HashMap<UUID, String>, String> map = commandUtil.getStringHashMap();
-                            String innerMap = map.get(commandUtil.getUuidStringMap());
-                            String color = commandUtil.getUuidStringMap().get(uuid);
-                            if (innerMap.equals("globe")) {
-                                StyleGlobe(Sponge.getServer().getPlayer(uuid),colorChoice(color));
-                            }
-                        }
-                    }
-                })
-                .submit(this);
-    }
 
     private Color colorChoice (String choice) {
         switch (choice.toLowerCase()) {
@@ -282,7 +193,6 @@ public class CrazyFeet {
 		}
 	}
 	*/
-
 
 
 }

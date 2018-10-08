@@ -6,80 +6,65 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 
 public class commandLoader {
-
-    private CommandSpec reload = CommandSpec.builder().description(Text.of("reloads crazyfeet configs!"))
-            .permission("crazyfeet.reload").executor(new CrazyFeetReloadCommand()).build();
-
-
-    private CommandSpec gui = CommandSpec.builder().description(Text.of("crazy a nice gui for crazyfeet particles"))
-            .permission("crazyfeet.crazygui").executor(new GuiCommand()).build();
-
     private CommandSpec hearts = CommandSpec.builder()
-            .description(Text.of("crazyfire to enable/disable fire Head particles"))
+            .description(Text.of("Heart trail"))
             .permission("crazyfeet.hearts")
             .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
             .executor(new hearts()).build();
 
     // CrazyFire <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec fire = CommandSpec.builder()
-            .description(Text.of("crazyfire to enable/disable fire particles"))
+            .description(Text.of("Flame Trail"))
             .permission("crazyfeet.fire")
             .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
             .executor(new fire())
             .build();
 
     // Crazynote <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyNoteSpec = CommandSpec.builder()
-            .description(Text.of("crazymagic to enable/disable note particles")).permission("crazyfeet.crazynote")
+    private CommandSpec note = CommandSpec.builder()
+            .description(Text.of("Note Trail"))
+            .permission("crazyfeet.note")
             .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
             .executor(new note())
             .build();
 
     // Crazymagic <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyMagicSpec = CommandSpec.builder()
-            .description(Text.of("crazymagic to enable/disable magic particles")).permission("crazyfeet.crazymagic")
+    private CommandSpec magic = CommandSpec.builder()
+            .description(Text.of("Magic Trail"))
+            .permission("crazyfeet.magic")
             .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
             .executor(new magic())
             .build();
 
     // CrazySmoke <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazySmokeSpec = CommandSpec.builder()
-            .description(Text.of("crazymagic to enable/disable Smoke particles")).permission("crazyfeet.crazysmoke")
+    private CommandSpec smoke = CommandSpec.builder()
+            .description(Text.of("Smoke Trail"))
+            .permission("crazyfeet.smoke")
             .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
             .executor(new smoke())
             .build();
 
     // CrazyPearl <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazypearlSpec = CommandSpec.builder()
-            .description(Text.of("crazymagic to enable/disable Pearl particles")).permission("crazyfeet.crazypearl")
+    private CommandSpec pearl = CommandSpec.builder()
+            .description(Text.of("Pearl Trail"))
+            .permission("crazyfeet.pearl")
             .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
             .executor(new pearl())
             .build();
 
     // CrazyWitch <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyWitchSpec = CommandSpec.builder()
-            .description(Text.of("crazymagic to enable/disable Witch particles")).permission("crazyfeet.crazywitch")
+    private CommandSpec witch = CommandSpec.builder()
+            .description(Text.of("witch Trail"))
+            .permission("crazyfeet.witch")
             .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
             .executor(new witch())
             .build();
 
-    private CommandSpec CrazyhelixmenuSpec = CommandSpec.builder()
-            .description(Text.of("crazyguihelix access Gui for helixes colors")).executor(new HelixGUICommand())
+    private CommandSpec storm = CommandSpec.builder()
+            .description(Text.of("Storm Trail"))
+            .permission("crazyFeet.storm")
+            .executor(new storm())
             .build();
-
-    private CommandSpec CrazyGui2Spec = CommandSpec.builder()
-            .description(Text.of("crazyhelix to enable/disable Helix Particles")).executor(new GuiPage2Cmd())
-            .permission("crazyfeet.crazygui")
-            .build();
-
-    private CommandSpec CrazystormSpec = CommandSpec.builder()
-            .description(Text.of("crazyhelix to enable/disable Storm Particles"))
-            .permission("crazyFeet.crazystorm")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyStormCommand()).build();
 
     private CommandSpec disable = CommandSpec.builder()
             .description(Text.of("Disables particles"))
@@ -88,7 +73,7 @@ public class commandLoader {
             .build();
 
     private CommandSpec Globe = CommandSpec.builder()
-            .description(Text.of("crazyglobe to enable/disable globe particles"))
+            .description(Text.of("Globe/Ring trail"))
             .permission("crazyfeet.globe")
             .arguments(GenericArguments.string(Text.of(messages.colorCommandKey)))
             .executor(new globe())
@@ -96,7 +81,7 @@ public class commandLoader {
 
 
     private CommandSpec Helix = CommandSpec.builder()
-            .description(Text.of("Creates a helix around the player of selected color"))
+            .description(Text.of("Helix Trail"))
             .permission("crazyFeet.helix")
             .arguments(GenericArguments.string(Text.of(messages.colorCommandKey)))
             .executor(new helix())
@@ -107,19 +92,15 @@ public class commandLoader {
             .description(Text.of("Root command for Crazyfeet"))
             .executor(new help())
             .permission("crazyfeet.base")
-            .child(CrazystormSpec,"storm")
+            .child(storm,"storm")
             .child(fire,"fire")
             .child(hearts,"hearts","heart")
-            .child(CrazyGui2Spec,"gui2")
-            .child(CrazyhelixmenuSpec,"helixMenu")
-            .child(CrazyMagicSpec,"magic")
-            .child(CrazyNoteSpec,"note")
-            .child(CrazypearlSpec,"pearl")
+            .child(magic,"magic")
+            .child(note,"note")
+            .child(pearl,"pearl")
             .child(Globe,"globe","ring")
-            .child(CrazySmokeSpec,"smoke")
-            .child(CrazyWitchSpec,"witch")
-            .child(reload,"reload")
-            .child(gui,"gui")
+            .child(smoke,"smoke")
+            .child(witch,"witch")
             .child(Helix,"helix")
             .child(disable,"disable","remove","stop","none","off","clear")
             .build();

@@ -11,7 +11,6 @@ import java.util.UUID;
 
 public class commandUtil {
     private static String choice = null;
-
     private static List<String> colors = Arrays.asList("red","blue","green","yellow","orange","white","brown","purple","black");
     private static List<String> clearType = Arrays.asList("none","clear","disable","off");
     private static List<String> bodyTypes = Arrays.asList("head","body","feet");
@@ -34,27 +33,25 @@ public class commandUtil {
         Player player = (Player) src;
         UUID identity = player.getUniqueId();
         choice = null;
-        switch (argument) {
-            case "head": {
-                choice = "2.5";
-                break;
-            }
-            case "body": {
-                choice = "1.0";
-                break;
-            }
-            case "feet": {
-                choice = "0.1";
-                break;
-            }
-            default: {
-                return false;
-            }
-        }
-
-        Double arg = Double.valueOf(getChoice());
-
         if (!getClearType().contains(argument)) {
+            switch (argument) {
+                case "head": {
+                    choice = "2.5";
+                    break;
+                }
+                case "body": {
+                    choice = "1.0";
+                    break;
+                }
+                case "feet": {
+                    choice = "0.1";
+                    break;
+                }
+                default: {
+                    return true;
+                }
+            }
+            Double arg = Double.valueOf(getChoice());
             if (!identityExists(identity,getUuidDoubleHashMap())) {
                 applyTrail(src,arg,particleType);
             } else if (identityExists(identity,getUuidDoubleHashMap()) && stringNotExist(identity,argument,getUuidDoubleHashMap())) {
@@ -65,8 +62,8 @@ public class commandUtil {
             }
             return false;
         } else if (getClearType().contains(argument)) {
-            if (getUuidStringMap().containsKey(identity)) {
-                getUuidStringMap().remove(identity);
+            if (getUuidDoubleHashMap().containsKey(identity)) {
+                getUuidDoubleHashMap().remove(identity);
             }
         } else {
             return true;
