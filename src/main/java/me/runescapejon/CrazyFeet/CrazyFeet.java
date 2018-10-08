@@ -2,13 +2,10 @@ package me.runescapejon.CrazyFeet;
 
 import com.google.inject.Inject;
 import me.runescapejon.CrazyFeet.Commands.*;
-import me.runescapejon.CrazyFeet.Commands.Util.CrazyFeetAdminCmd;
-import me.runescapejon.CrazyFeet.Commands.Util.CrazyFeetCommands;
 import me.runescapejon.CrazyFeet.Listeners.CrazyListener;
 import me.runescapejon.CrazyFeet.utils.Config;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleOptions;
@@ -22,31 +19,18 @@ import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.scheduler.Task;
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.Color;
 import org.spongepowered.api.world.World;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Plugin(id = "crazyfeetsponge", name = "CrazyFeetSponge", authors = {
 		"runescapejon" }, description = "CrazyFeet Ported over to Sponge", version = "1.14")
 public class CrazyFeet {
-    private ArrayList<UUID> crazyFireHead = new ArrayList<>();
-    private ArrayList<UUID> crazyHeartHead = new ArrayList<>();
-    private ArrayList<UUID> crazyMagicHead = new ArrayList<>();
-    private ArrayList<UUID> crazyNoteHead = new ArrayList<>();
-    private ArrayList<UUID> crazyWitchHead = new ArrayList<>();
-    private ArrayList<UUID> crazySmokeHead = new ArrayList<>();
-    private ArrayList<UUID> crazyPearlHead = new ArrayList<>();
-    private ArrayList<UUID> crazyFire = new ArrayList<>();
-    private ArrayList<UUID> crazySmoke = new ArrayList<>();
-    private ArrayList<UUID> crazyMagic = new ArrayList<>();
-    private ArrayList<UUID> crazyPearl = new ArrayList<>();
-    private ArrayList<UUID> crazyNote = new ArrayList<>();
-    private ArrayList<UUID> crazyWitch = new ArrayList<>();
-    private ArrayList<UUID> globe = new ArrayList<>();
     private ArrayList<UUID> Storm = new ArrayList<>();
     private static CrazyFeet instance;
 
@@ -90,16 +74,6 @@ public class CrazyFeet {
 
     @Listener
     public void onGameInitlization (GameInitializationEvent event) {
-        // CrazyFeet Register
-        HashMap<List<String>, CommandSpec> subcommands = new HashMap<>();
-        subcommands.put(Collections.singletonList("admin"),
-                CommandSpec.builder().description(Text.of("crazyfeet admin")).permission("crazyfeet.admin")
-                        .executor(new CrazyFeetAdminCmd()).build());
-
-        CommandSpec CrazyFeetSpec = CommandSpec.builder().description(Text.of("crazyfeet"))
-                .permission("crazyfeet.crazyfeet").executor(new CrazyFeetCommands()).children(subcommands).build();
-        Sponge.getCommandManager().register(this,CrazyFeetSpec,"crazyfeet");
-
         // CrazyHeadListener Registering here
         CrazyListener head = new CrazyListener();
         Sponge.getEventManager().registerListeners(this,head);
@@ -125,65 +99,9 @@ public class CrazyFeet {
         return languageConfig;
     }
 
-    public ArrayList<UUID> getCrazyFireHead () {
-        return crazyFireHead;
-    }
-
-    public ArrayList<UUID> getCrazyHeartHead () {
-        return crazyHeartHead;
-    }
-
-    public ArrayList<UUID> getCrazyMagicHead () {
-        return crazyMagicHead;
-    }
-
-    public ArrayList<UUID> getCrazyNoteHead () {
-        return crazyNoteHead;
-    }
-
-    public ArrayList<UUID> getCrazyWitchHead () {
-        return crazyWitchHead;
-    }
-
-    public ArrayList<UUID> getCrazySmokeHead () {
-        return crazySmokeHead;
-    }
-
-    public ArrayList<UUID> getCrazyPearlHead () {
-        return crazyPearlHead;
-    }
-
-    public ArrayList<UUID> getCrazyFire () {
-        return crazyFire;
-    }
-
-    public ArrayList<UUID> getCrazySmoke () {
-        return crazySmoke;
-    }
-
-    public ArrayList<UUID> getCrazyMagic () {
-        return crazyMagic;
-    }
-
-    public ArrayList<UUID> getCrazyPearl () {
-        return crazyPearl;
-    }
-
-    public ArrayList<UUID> getCrazyNote () {
-        return crazyNote;
-    }
-
-    public ArrayList<UUID> getCrazyWitch () {
-        return crazyWitch;
-    }
-
 
     private void helix (Optional<Player> player,Color color) {
         helixMath(player,color);
-    }
-
-    public ArrayList<UUID> getCrazyGlobe () {
-        return globe;
     }
 
     public ArrayList<UUID> getCrazyStorm () {
@@ -223,7 +141,6 @@ public class CrazyFeet {
             double y = r * Math.cos(pi) + 1.5;
             double z = r * Math.sin(theta) * Math.sin(pi);
 
-            // double z = r*Math.sin(theta)+Math.sin(pi);
             World world = player.get().getWorld();
             world.spawnParticles(
                     ParticleEffect.builder().type(ParticleTypes.REDSTONE_DUST)
@@ -251,15 +168,6 @@ public class CrazyFeet {
 
     @Listener
     public void onServerStart (GameStartedServerEvent event) {
-        /*Task.builder()
-                .interval(63,TimeUnit.MILLISECONDS)
-                .name("globe")
-                .execute(() -> {
-                    if (!globe.isEmpty()) {
-                        globe.forEach(uuid -> Sponge.getServer().getPlayer(uuid).ifPresent(this::StyleGlobe));
-                    }
-                })
-                .submit(this);*/
 
         Task.builder()
                 .intervalTicks(1)
@@ -275,13 +183,9 @@ public class CrazyFeet {
                 .interval(63,TimeUnit.MILLISECONDS)
                 .name("helix")
                 .execute(() -> {
-                    if (!helix.getParticleInfo().isEmpty()) {
-                        for (String s : helix.getParticleInfo()) {
-                            UUID identity = UUID.fromString(s.substring(0,36));
-                            String choice = s.substring(37);
-                            if (Sponge.getServer().getPlayer(identity).isPresent()) {
-                                helix(Sponge.getServer().getPlayer(identity),colorChoice(choice));
-                            }
+                    for (UUID uuid : commandUtil.getUuidStringMap().keySet()) {
+                        if (Sponge.getServer().getPlayer(uuid).isPresent()) {
+                            helix(Sponge.getServer().getPlayer(uuid),colorChoice(commandUtil.getUuidStringMap().get(uuid)));
                         }
                     }
                 })
@@ -292,13 +196,9 @@ public class CrazyFeet {
                 .interval(63,TimeUnit.MILLISECONDS)
                 .name("superglobe")
                 .execute(() -> {
-                    if (!me.runescapejon.CrazyFeet.Commands.globe.getParticleInfo().isEmpty()) {
-                        for (String s : me.runescapejon.CrazyFeet.Commands.globe.getParticleInfo()) {
-                            UUID identity = UUID.fromString(s.substring(0,36));
-                            String choice = s.substring(37);
-                            if (Sponge.getServer().getPlayer(identity).isPresent()) {
-                                StyleGlobe(Sponge.getServer().getPlayer(identity),colorChoice(choice));
-                            }
+                    for (UUID uuid : commandUtil.getUuidStringMap().keySet()) {
+                        if (Sponge.getServer().getPlayer(uuid).isPresent()) {
+                            StyleGlobe(Sponge.getServer().getPlayer(uuid),colorChoice(commandUtil.getUuidStringMap().get(uuid)));
                         }
                     }
                 })

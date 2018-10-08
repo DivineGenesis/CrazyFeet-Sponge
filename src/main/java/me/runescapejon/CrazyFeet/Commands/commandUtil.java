@@ -1,12 +1,13 @@
 package me.runescapejon.CrazyFeet.Commands;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.effect.particle.ParticleType;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class commandUtil {
     private static String choice = null;
@@ -14,74 +15,82 @@ public class commandUtil {
     private static List<String> colors = Arrays.asList("red","blue","green","yellow","orange","white","brown","purple","black");
     private static List<String> clearType = Arrays.asList("none","clear","disable","off");
     private static List<String> bodyTypes = Arrays.asList("head","body","feet");
+    private static HashMap<UUID, String> uuidStringMap = new HashMap<>();
+    private static HashMap<UUID, Double> uuidDoubleHashMap = new HashMap<>();
+    private static HashMap<HashMap<UUID, Double>, ParticleType> particleTypeHashMap = new HashMap<>();
 
-    private static ArrayList<ArrayList<String>> trailLists = new ArrayList<>();
 
-
-    private static boolean identityExists (String identity,ArrayList<String> list) {
-        for (String s : list) {
-            if (s.startsWith(identity)) {
-                return true;
-            }
-        }
-        return false;
+    private static boolean identityExists (UUID identity,HashMap map) {
+        return map.containsKey(identity);
     }
 
-    private static boolean stringExists (String identity,String color,ArrayList<String> listType) {
-        for (String s : listType) {
-            if (s.matches(identity + "-" + color)) {
-                return true;
-            }
-        }
-        return false;
+    private static boolean stringExists (UUID identity,String arg,HashMap map) {
+        return map.containsKey(identity) && map.containsValue(arg);
     }
 
 
-    static boolean invalidCommand (CommandSource src,ArrayList<String> list,String argument) {
+    static boolean invalidCommand (CommandSource src,String argument,ParticleType particleType) {
         Player player = (Player) src;
-        String identity = player.getUniqueId().toString();
+        UUID identity = player.getUniqueId();
         choice = null;
-        if (getBodyTypes().contains(argument)) {
-            switch (argument) {
-                case "head": {
-                    choice = "2.5";
-                    break;
-                }
-                case "body": {
-                    choice = "1.2";
-                    break;
-                }
-                case "feet": {
-                    choice = "0.1";
-                    break;
-                }
-                default: {
-                    player.sendMessage(Text.of("Default hit"));
-                    break;
-                }
+        switch (argument) {
+            case "head": {
+                choice = "2.5";
+                break;
             }
-        } else if (getColors().contains(argument.toLowerCase())) {
-            choice = argument;
+            case "body": {
+                choice = "1.0";
+                break;
+            }
+            case "feet": {
+                choice = "0.1";
+                break;
+            }
+            default: {
+                return false;
+            }
         }
+
+        Double arg = Double.valueOf(getChoice());
+
         if (!getClearType().contains(argument)) {
-            if (!identityExists(identity,list)) {
-                applyTrail(list,src,getChoice());
-            } else if (identityExists(identity,list) && !stringExists(identity,getChoice(),list)) {
-                for (String s : list) {
-                    if (s.startsWith(identity)) {
-                        list.remove(s);
-                        break;
-                    }
+            if (!identityExists(identity,getUuidDoubleHashMap())) {
+                applyTrail(src,arg,particleType);
+            } else if (identityExists(identity,getUuidDoubleHashMap()) && !stringExists(identity,argument,getUuidDoubleHashMap())) {
+                if (getUuidDoubleHashMap().containsKey(identity)) {
+                    getUuidDoubleHashMap().remove(identity);
+                    applyTrail(src,arg,particleType);
                 }
-                applyTrail(list,src,getChoice());
             }
             return false;
         } else if (getClearType().contains(argument)) {
-            for (String s : list) {
-                if (s.startsWith(identity)) {
-                    list.remove(s);
-                    break;
+            if (getUuidStringMap().containsKey(identity)) {
+                getUuidStringMap().remove(identity);
+            }
+        } else {
+            return true;
+        }
+        return false;
+
+    }
+
+    static boolean invalidCommand (CommandSource src,String argument) {
+        Player player = (Player) src;
+        UUID identity = player.getUniqueId();
+
+        if (!getClearType().contains(argument)) {
+            if (!identityExists(identity,getUuidStringMap())) {
+                applyTrail(src,argument);
+            } else if (identityExists(identity,getUuidStringMap()) && !stringExists(identity,argument,getUuidStringMap())) {
+                if (getUuidStringMap().containsKey(identity)) {
+                    getUuidStringMap().remove(identity);
+                    applyTrail(src,argument);
                 }
+            }
+            return false;
+        } else if (getClearType().contains(argument)) {
+            if (getUuidStringMap().containsKey(identity)) {
+                getUuidStringMap().remove(identity);
             }
         } else {
             return true;
@@ -89,33 +98,29 @@ public class commandUtil {
         return false;
     }
 
-    private static void applyTrail (ArrayList<String> list,CommandSource src,String choice) {
+    private static void applyTrail (CommandSource src,String argument) {
         Player player = (Player) src;
 
-        String identity = player.getUniqueId().toString();
-        removeTrails(player);
-        list.add(identity + "-" + choice);
+        UUID identity = player.getUniqueId();
+        removeTrails(player,getUuidStringMap());
+        getUuidStringMap().put(identity,argument);
     }
 
-    static void removeTrails (Player player) {
-        getTrailLists().add(helix.getParticleInfo());
-        getTrailLists().add(globe.getParticleInfo());
-        getTrailLists().add(hearts.getParticleInfo());
+    private static void applyTrail (CommandSource src,Double argument,ParticleType particleType) {
+        Player player = (Player) src;
 
-        String identity = player.getUniqueId().toString();
-        for (ArrayList<String> aList : getTrailLists()) {
-            for (String s : aList) {
-                if (s.startsWith(identity)) {
-                    aList.remove(s);
-                    break;
-                }
-            }
+        UUID identity = player.getUniqueId();
+        removeTrails(player,getUuidDoubleHashMap());
+        getUuidDoubleHashMap().put(identity,argument);
+        getParticleTypeHashMap().put(getUuidDoubleHashMap(),particleType);
+    }
+
+    static void removeTrails (Player player,HashMap map) {
+
+        UUID identity = player.getUniqueId();
+        if (map.containsKey(identity)) {
+            map.remove(identity);
         }
-    }
-
-
-    private static ArrayList<ArrayList<String>> getTrailLists () {
-        return trailLists;
     }
 
     public static List<String> getColors () {
@@ -133,4 +138,18 @@ public class commandUtil {
     private static String getChoice () {
         return choice;
     }
+
+    public static HashMap<UUID, String> getUuidStringMap () {
+        return uuidStringMap;
+    }
+
+    public static HashMap<UUID, Double> getUuidDoubleHashMap () {
+        return uuidDoubleHashMap;
+    }
+
+    public static HashMap<HashMap<UUID, Double>, ParticleType> getParticleTypeHashMap () {
+        return particleTypeHashMap;
+    }
+
+
 }

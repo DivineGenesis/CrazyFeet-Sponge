@@ -1,8 +1,6 @@
 package me.runescapejon.CrazyFeet.Commands;
 
 import me.runescapejon.CrazyFeet.Commands.Util.CrazyCheckCommands;
-import me.runescapejon.CrazyFeet.Commands.Util.CrazyDisableCmds;
-import me.runescapejon.CrazyFeet.Commands.head.*;
 import me.runescapejon.CrazyFeet.messages;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -17,126 +15,54 @@ public class commandLoader {
     private CommandSpec gui = CommandSpec.builder().description(Text.of("crazy a nice gui for crazyfeet particles"))
             .permission("crazyfeet.crazygui").executor(new GuiCommand()).build();
 
-
-    // CrazyWitchHead <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyWitchHeadSpec = CommandSpec.builder()
-            .description(Text.of("crazyfire to enable/disable Pearl Head particles"))
-            .permission("crazyfeet.crazywitchhead")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyWitchHeadCommand()).build();
-
-    // CrazySmokeHead <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazySmokeHeadSpec = CommandSpec.builder()
-            .description(Text.of("crazyfire to enable/disable Pearl Head particles"))
-            .permission("crazyfeet.crazysmokehead")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazySmokeHeadCommand()).build();
-
-    // CrazyPearlHead <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyPearlHeadSpec = CommandSpec.builder()
-            .description(Text.of("crazyfire to enable/disable Pearl Head particles"))
-            .permission("crazyfeet.crazypearlhead")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyPearlHeadCommand()).build();
-
-    // CrazyNoteHead <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazynoteHeadSpec = CommandSpec.builder()
-            .description(Text.of("crazyfire to enable/disable Magic Head particles"))
-            .permission("crazyfeet.crazynotehead")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyNoteHeadCommand()).build();
-
-    // CrazyMagicHead <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyMagicHeadSpec = CommandSpec.builder()
-            .description(Text.of("crazyfire to enable/disable Magic Head particles"))
-            .permission("crazyfeet.crazymagichead")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyMagicHeadCommand()).build();
-
     private CommandSpec hearts = CommandSpec.builder()
             .description(Text.of("crazyfire to enable/disable fire Head particles"))
             .permission("crazyfeet.hearts")
             .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
             .executor(new hearts()).build();
 
-    // CrazyFireHead <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyFireHeadSpec = CommandSpec.builder()
-            .description(Text.of("crazyfire to enable/disable fire Head particles"))
-            .permission("crazyfeet.crazyfirehead")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyFireHeadCommand()).build();
-
     // CrazyFire <PlayerName> - Register and <PlayerName> is Optional
-    private CommandSpec CrazyFireSpec = CommandSpec.builder()
-            .description(Text.of("crazyfire to enable/disable fire particles")).permission("crazyfeet.crazyfire")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyFireCommands()).build();
+    private CommandSpec fire = CommandSpec.builder()
+            .description(Text.of("crazyfire to enable/disable fire particles"))
+            .permission("crazyfeet.fire")
+            .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
+            .executor(new fire())
+            .build();
 
     // Crazynote <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec CrazyNoteSpec = CommandSpec.builder()
             .description(Text.of("crazymagic to enable/disable note particles")).permission("crazyfeet.crazynote")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyNoteCommands()).build();
+            .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
+            .executor(new note())
+            .build();
 
     // Crazymagic <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec CrazyMagicSpec = CommandSpec.builder()
             .description(Text.of("crazymagic to enable/disable magic particles")).permission("crazyfeet.crazymagic")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyMagicCommands()).build();
+            .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
+            .executor(new magic())
+            .build();
 
     // CrazySmoke <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec CrazySmokeSpec = CommandSpec.builder()
             .description(Text.of("crazymagic to enable/disable Smoke particles")).permission("crazyfeet.crazysmoke")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazySmokeCommands()).build();
+            .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
+            .executor(new smoke())
+            .build();
 
     // CrazyPearl <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec CrazypearlSpec = CommandSpec.builder()
             .description(Text.of("crazymagic to enable/disable Pearl particles")).permission("crazyfeet.crazypearl")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyPearlCommands()).build();
+            .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
+            .executor(new pearl())
+            .build();
 
     // CrazyWitch <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec CrazyWitchSpec = CommandSpec.builder()
             .description(Text.of("crazymagic to enable/disable Witch particles")).permission("crazyfeet.crazywitch")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyWitchCommands()).build();
+            .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
+            .executor(new witch())
+            .build();
 
     private CommandSpec CrazyCheckSpec = CommandSpec.builder()
             .description(Text.of("crazycheck your particles status - helpful to see what enabled"))
@@ -146,17 +72,6 @@ public class commandLoader {
                             GenericArguments.optional(GenericArguments.player(Text.of("target"))),
                             GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
             .executor(new CrazyCheckCommands()).build();
-
-    private CommandSpec CrazyDisableSpec = CommandSpec.builder()
-            .description(Text.of("crazydisable disable your/other particles all of them"))
-            .permission("crazyfeet.crazydisable")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyDisableCmds()).build();
-
-
 
     private CommandSpec CrazyhelixmenuSpec = CommandSpec.builder()
             .description(Text.of("crazyguihelix access Gui for helixes colors")).executor(new HelixGUICommand())
@@ -204,22 +119,15 @@ public class commandLoader {
             .permission("crazyfeet.base")
             .child(CrazystormSpec,"storm")
             .child(CrazyCheckSpec,"check")
-            .child(CrazyDisableSpec,"disable","remove")
-            .child(CrazyFireHeadSpec,"fireHead")
-            .child(CrazyFireSpec,"fire")
+            .child(fire,"fire")
             .child(hearts,"hearts","heart")
             .child(CrazyGui2Spec,"gui2")
             .child(CrazyhelixmenuSpec,"helixMenu")
-            .child(CrazyMagicHeadSpec,"magicHead")
             .child(CrazyMagicSpec,"magic")
-            .child(CrazynoteHeadSpec,"noteHead")
             .child(CrazyNoteSpec,"note")
-            .child(CrazyPearlHeadSpec,"pearlHead")
             .child(CrazypearlSpec,"pearl")
             .child(Globe,"globe","ring")
-            .child(CrazySmokeHeadSpec,"smokeHead")
             .child(CrazySmokeSpec,"smoke")
-            .child(CrazyWitchHeadSpec,"witchHead")
             .child(CrazyWitchSpec,"witch")
             .child(reload,"reload")
             .child(gui,"gui")

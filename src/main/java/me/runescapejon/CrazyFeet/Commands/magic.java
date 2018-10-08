@@ -9,18 +9,18 @@ import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
-public class hearts implements CommandExecutor {
+public class magic implements CommandExecutor {
+
     @Override
     public CommandResult execute (CommandSource src,CommandContext args) {
         String bodyType = args.requireOne(messages.bodyCommandKey);
         if (src instanceof Player) {
-            if (commandUtil.invalidCommand(src,bodyType,ParticleTypes.HEART)) {
+            if (commandUtil.invalidCommand(src,bodyType,ParticleTypes.INSTANT_SPELL)) {
                 src.sendMessage(Text.of(messages.bodyError));
             }
         }
         return CommandResult.success();
     }
-
 }
 
 
