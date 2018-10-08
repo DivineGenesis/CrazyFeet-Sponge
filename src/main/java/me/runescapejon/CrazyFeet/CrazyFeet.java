@@ -24,6 +24,7 @@ import org.spongepowered.api.world.World;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -185,7 +186,12 @@ public class CrazyFeet {
                 .execute(() -> {
                     for (UUID uuid : commandUtil.getUuidStringMap().keySet()) {
                         if (Sponge.getServer().getPlayer(uuid).isPresent()) {
-                            helix(Sponge.getServer().getPlayer(uuid),colorChoice(commandUtil.getUuidStringMap().get(uuid)));
+                            HashMap<HashMap<UUID, String>, String> map = commandUtil.getStringHashMap();
+                            String innerMap = map.get(commandUtil.getUuidStringMap());
+                            String color = commandUtil.getUuidStringMap().get(uuid);
+                            if (innerMap.equals("helix")) {
+                                helix(Sponge.getServer().getPlayer(uuid),colorChoice(color));
+                            }
                         }
                     }
                 })
@@ -198,7 +204,12 @@ public class CrazyFeet {
                 .execute(() -> {
                     for (UUID uuid : commandUtil.getUuidStringMap().keySet()) {
                         if (Sponge.getServer().getPlayer(uuid).isPresent()) {
-                            StyleGlobe(Sponge.getServer().getPlayer(uuid),colorChoice(commandUtil.getUuidStringMap().get(uuid)));
+                            HashMap<HashMap<UUID, String>, String> map = commandUtil.getStringHashMap();
+                            String innerMap = map.get(commandUtil.getUuidStringMap());
+                            String color = commandUtil.getUuidStringMap().get(uuid);
+                            if (innerMap.equals("globe")) {
+                                StyleGlobe(Sponge.getServer().getPlayer(uuid),colorChoice(color));
+                            }
                         }
                     }
                 })

@@ -15,7 +15,7 @@ public class globe implements CommandExecutor {
         String color = args.requireOne(messages.colorCommandKey);
 
         if (src instanceof Player) {
-            if (commandUtil.invalidCommand(src,color)) {
+            if (commandUtil.invalidCommand(src,color,"globe")) {
                 src.sendMessage(Text.of(TextColors.RED,"Invalid Choice! Available colors are\n" + commandUtil.getColors().toString()));
             }
         }

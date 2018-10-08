@@ -1,6 +1,5 @@
 package me.runescapejon.CrazyFeet.Commands;
 
-import me.runescapejon.CrazyFeet.Commands.Util.CrazyCheckCommands;
 import me.runescapejon.CrazyFeet.messages;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -64,15 +63,6 @@ public class commandLoader {
             .executor(new witch())
             .build();
 
-    private CommandSpec CrazyCheckSpec = CommandSpec.builder()
-            .description(Text.of("crazycheck your particles status - helpful to see what enabled"))
-            .permission("crazyfeet.crazycheck")
-            .arguments(GenericArguments.firstParsing(GenericArguments.flags()
-                    .buildWith(GenericArguments.firstParsing(
-                            GenericArguments.optional(GenericArguments.player(Text.of("target"))),
-                            GenericArguments.optional(GenericArguments.string(Text.of("targets")))))))
-            .executor(new CrazyCheckCommands()).build();
-
     private CommandSpec CrazyhelixmenuSpec = CommandSpec.builder()
             .description(Text.of("crazyguihelix access Gui for helixes colors")).executor(new HelixGUICommand())
             .build();
@@ -118,7 +108,6 @@ public class commandLoader {
             .executor(new help())
             .permission("crazyfeet.base")
             .child(CrazystormSpec,"storm")
-            .child(CrazyCheckSpec,"check")
             .child(fire,"fire")
             .child(hearts,"hearts","heart")
             .child(CrazyGui2Spec,"gui2")
@@ -132,6 +121,6 @@ public class commandLoader {
             .child(reload,"reload")
             .child(gui,"gui")
             .child(Helix,"helix")
-            .child(disable,"disable","remove","stop","none","off")
+            .child(disable,"disable","remove","stop","none","off","clear")
             .build();
 }

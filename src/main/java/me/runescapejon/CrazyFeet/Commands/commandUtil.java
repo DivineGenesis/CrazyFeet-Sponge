@@ -18,14 +18,15 @@ public class commandUtil {
     private static HashMap<UUID, String> uuidStringMap = new HashMap<>();
     private static HashMap<UUID, Double> uuidDoubleHashMap = new HashMap<>();
     private static HashMap<HashMap<UUID, Double>, ParticleType> particleTypeHashMap = new HashMap<>();
+    private static HashMap<HashMap<UUID, String>, String> stringHashMap = new HashMap<>();
 
 
     private static boolean identityExists (UUID identity,HashMap map) {
         return map.containsKey(identity);
     }
 
-    private static boolean stringExists (UUID identity,String arg,HashMap map) {
-        return map.containsKey(identity) && map.containsValue(arg);
+    private static boolean stringNotExist (UUID identity,String arg,HashMap map) {
+        return !map.containsKey(identity) || !map.containsValue(arg);
     }
 
 
@@ -56,7 +57,7 @@ public class commandUtil {
         if (!getClearType().contains(argument)) {
             if (!identityExists(identity,getUuidDoubleHashMap())) {
                 applyTrail(src,arg,particleType);
-            } else if (identityExists(identity,getUuidDoubleHashMap()) && !stringExists(identity,argument,getUuidDoubleHashMap())) {
+            } else if (identityExists(identity,getUuidDoubleHashMap()) && stringNotExist(identity,argument,getUuidDoubleHashMap())) {
                 if (getUuidDoubleHashMap().containsKey(identity)) {
                     getUuidDoubleHashMap().remove(identity);
                     applyTrail(src,arg,particleType);
@@ -74,18 +75,26 @@ public class commandUtil {
 
     }
 
-    static boolean invalidCommand (CommandSource src,String argument) {
+    static boolean invalidCommand (CommandSource src,String argument,String effect) {
         Player player = (Player) src;
         UUID identity = player.getUniqueId();
 
-        if (!getClearType().contains(argument)) {
-            if (!identityExists(identity,getUuidStringMap())) {
-                applyTrail(src,argument);
-            } else if (identityExists(identity,getUuidStringMap()) && !stringExists(identity,argument,getUuidStringMap())) {
+        HashMap<HashMap<UUID, String>, String> map = commandUtil.getStringHashMap();
+        String innerMap = map.get(commandUtil.getUuidStringMap());
+
+
+        if (!getClearType().contains(argument)) { //If not clearing
+            if (!identityExists(identity,getUuidStringMap())) { //if Identity is not in Map
+                applyTrail(src,argument,effect);
+                //If identity is in Map, but color is not
+            } else if (identityExists(identity,getUuidStringMap()) && stringNotExist(identity,argument,getUuidStringMap())) {
                 if (getUuidStringMap().containsKey(identity)) {
                     getUuidStringMap().remove(identity);
-                    applyTrail(src,argument);
+                    applyTrail(src,argument,effect);
                 }
+            } else if (!innerMap.equals(effect)) {
+                getUuidStringMap().remove(identity);
+                applyTrail(src,argument,effect);
             }
             return false;
         } else if (getClearType().contains(argument)) {
@@ -98,12 +107,13 @@ public class commandUtil {
         return false;
     }
 
-    private static void applyTrail (CommandSource src,String argument) {
+    private static void applyTrail (CommandSource src,String argument,String effect) {
         Player player = (Player) src;
 
         UUID identity = player.getUniqueId();
         removeTrails(player,getUuidStringMap());
         getUuidStringMap().put(identity,argument);
+        getStringHashMap().put(getUuidStringMap(),effect);
     }
 
     private static void applyTrail (CommandSource src,Double argument,ParticleType particleType) {
@@ -149,6 +159,10 @@ public class commandUtil {
 
     public static HashMap<HashMap<UUID, Double>, ParticleType> getParticleTypeHashMap () {
         return particleTypeHashMap;
+    }
+
+    public static HashMap<HashMap<UUID, String>, String> getStringHashMap () {
+        return stringHashMap;
     }
 
 

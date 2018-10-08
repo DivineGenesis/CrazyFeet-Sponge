@@ -14,7 +14,7 @@ public class helix implements CommandExecutor {
     public CommandResult execute (CommandSource src,CommandContext args) {
         String color = args.requireOne(messages.colorCommandKey);
         if (src instanceof Player) {
-            if (commandUtil.invalidCommand(src,color)) {
+            if (commandUtil.invalidCommand(src,color,"helix")) {
                 src.sendMessage(Text.of(TextColors.RED,messages.colorError));
             }
         }
