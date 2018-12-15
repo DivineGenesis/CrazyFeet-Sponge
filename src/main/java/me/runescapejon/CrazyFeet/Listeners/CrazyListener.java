@@ -9,8 +9,10 @@ import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleOptions;
 import org.spongepowered.api.effect.particle.ParticleType;
 import org.spongepowered.api.effect.particle.ParticleTypes;
+import org.spongepowered.api.effect.sound.SoundTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.world.World;
@@ -22,6 +24,7 @@ import java.util.UUID;
 
 public class CrazyListener {
 	private GameRegistry gameRegistry = Sponge.getRegistry();
+
 	@Listener
 	public void onMove (MoveEntityEvent event,@Root Player player) {
 		if (player.get(Keys.INVISIBLE).get()) {
@@ -34,18 +37,18 @@ public class CrazyListener {
 				ParticleType innerMap = map.get(commandUtil.getUuidDoubleHashMap());
 				Double bodyType = commandUtil.getUuidDoubleHashMap().get(uuid);
 				if (!innerMap.equals(ParticleTypes.NOTE)) {
-					applyParticle(world,player,innerMap,false,bodyType);
+					applyParticle(world,player,innerMap,bodyType);
 				} else {
-					applyParticle(world,player,innerMap,true,bodyType);
+					applyParticle(world,player,innerMap,bodyType);
 				}
 			}
 		}
 	}
 
-	private void applyParticle (World world,Player player,ParticleType pType,boolean isNote,double bodyType) {
+	private void applyParticle (World world,Player player,ParticleType pType,double bodyType) {
 		Random randomGenerator = new Random();
 		ArrayList<NotePitch> noteTypes = new ArrayList<>(getGameRegistry().getAllOf(NotePitch.class));
-		if (isNote) {
+		if (pType.equals(ParticleTypes.NOTE)) {
 			int index = randomGenerator.nextInt(noteTypes.size());
 			world.spawnParticles(ParticleEffect.builder().type(pType)
 							.option(ParticleOptions.NOTE,noteTypes.get(index)).build(),
@@ -56,7 +59,6 @@ public class CrazyListener {
 		}
 
 	}
-
 	private GameRegistry getGameRegistry () {
 		return gameRegistry;
 	}

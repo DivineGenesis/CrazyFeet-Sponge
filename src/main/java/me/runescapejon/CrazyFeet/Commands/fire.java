@@ -8,6 +8,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 public class fire implements CommandExecutor {
     @Override
@@ -15,7 +16,7 @@ public class fire implements CommandExecutor {
         String bodyType = args.requireOne(messages.bodyCommandKey);
         if (src instanceof Player) {
             if (commandUtil.invalidCommand(src,bodyType,ParticleTypes.FLAME)) {
-                src.sendMessage(Text.of(messages.bodyError));
+                src.sendMessage(Text.of(TextColors.RED,messages.bodyError));
             }
         }
         return CommandResult.success();

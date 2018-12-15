@@ -4,6 +4,8 @@ import me.runescapejon.CrazyFeet.Commands.commandLoader;
 import me.runescapejon.CrazyFeet.Commands.commandUtil;
 import me.runescapejon.CrazyFeet.Commands.storm;
 import me.runescapejon.CrazyFeet.Listeners.CrazyListener;
+import me.runescapejon.CrazyFeet.guiUtil.mainGui;
+import me.runescapejon.CrazyFeet.guiUtil.trailsGui;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleOptions;
@@ -11,8 +13,10 @@ import org.spongepowered.api.effect.particle.ParticleTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.util.Color;
 import org.spongepowered.api.world.World;
@@ -26,6 +30,22 @@ import java.util.concurrent.TimeUnit;
 		"runescapejon" }, description = "CrazyFeet Ported over to Sponge", version = "1.14")
 public class CrazyFeet {
 
+    private static CrazyFeet instance;
+
+    public static CrazyFeet getInstance() {
+        return instance;
+    }
+
+    private static PluginContainer plugin;
+
+    public static PluginContainer getPlugin() {
+        return plugin;
+    }
+
+    @Listener
+    public void onPre (GamePreInitializationEvent event) {
+        plugin = Sponge.getPluginManager().getPlugin("crazyfeetsponge").get();
+    }
     @Listener
     public void onGameInit (GameInitializationEvent event) {
         Sponge.getEventManager().registerListeners(this,new CrazyListener());
@@ -63,6 +83,10 @@ public class CrazyFeet {
                     }
                 })
                 .submit(this);
+
+        mainGui.getView().define(mainGui.layout);
+        trailsGui.view.define(trailsGui.layout);
+
     }
 
     private void cloudMath (Player player,double x,double y,double z) {

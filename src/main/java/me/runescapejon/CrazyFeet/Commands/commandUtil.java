@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class commandUtil {
-    private static String choice = null;
+    private static String choice;
     private static List<String> colors = Arrays.asList("red","blue","green","yellow","orange","white","brown","purple","black");
     private static List<String> clearType = Arrays.asList("none","clear","disable","off");
     private static List<String> bodyTypes = Arrays.asList("head","body","feet");
@@ -80,24 +80,26 @@ public class commandUtil {
         String innerMap = map.get(commandUtil.getUuidStringMap());
 
 
-        if (!getClearType().contains(argument)) { //If not clearing
-            if (!identityExists(identity,getUuidStringMap())) { //if Identity is not in Map
-                applyTrail(src,argument,effect);
-                //If identity is in Map, but color is not
-            } else if (identityExists(identity,getUuidStringMap()) && stringNotExist(identity,argument,getUuidStringMap())) {
-                if (getUuidStringMap().containsKey(identity)) {
-                    getUuidStringMap().remove(identity);
-                    applyTrail(src,argument,effect);
-                }
-            } else if (!innerMap.equals(effect)) {
-                getUuidStringMap().remove(identity);
-                applyTrail(src,argument,effect);
-            }
-            return false;
-        } else if (getClearType().contains(argument)) {
+        if (getClearType().contains(argument)) { //If not clearing
             if (getUuidStringMap().containsKey(identity)) {
                 getUuidStringMap().remove(identity);
             }
+            return false;
+        }
+        if (!getColors().contains(argument)) {
+            return true;
+        }
+        if (!identityExists(identity,getUuidStringMap())) { //if Identity is not in Map
+            applyTrail(src,argument,effect);
+            //If identity is in Map, but color is not
+        } else if (identityExists(identity,getUuidStringMap()) && stringNotExist(identity,argument,getUuidStringMap())) {
+            if (getUuidStringMap().containsKey(identity)) {
+                getUuidStringMap().remove(identity);
+                applyTrail(src,argument,effect);
+            }
+        } else if (!innerMap.equals(effect)) {
+            getUuidStringMap().remove(identity);
+            applyTrail(src,argument,effect);
         } else {
             return true;
         }

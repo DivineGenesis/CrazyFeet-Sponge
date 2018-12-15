@@ -12,7 +12,6 @@ public class commandLoader {
             .arguments(GenericArguments.string(Text.of(messages.bodyCommandKey)))
             .executor(new hearts()).build();
 
-    // CrazyFire <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec fire = CommandSpec.builder()
             .description(Text.of("Flame Trail"))
             .permission("crazyfeet.fire")
@@ -20,7 +19,6 @@ public class commandLoader {
             .executor(new fire())
             .build();
 
-    // Crazynote <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec note = CommandSpec.builder()
             .description(Text.of("Note Trail"))
             .permission("crazyfeet.note")
@@ -28,7 +26,6 @@ public class commandLoader {
             .executor(new note())
             .build();
 
-    // Crazymagic <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec magic = CommandSpec.builder()
             .description(Text.of("Magic Trail"))
             .permission("crazyfeet.magic")
@@ -36,7 +33,6 @@ public class commandLoader {
             .executor(new magic())
             .build();
 
-    // CrazySmoke <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec smoke = CommandSpec.builder()
             .description(Text.of("Smoke Trail"))
             .permission("crazyfeet.smoke")
@@ -44,7 +40,6 @@ public class commandLoader {
             .executor(new smoke())
             .build();
 
-    // CrazyPearl <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec pearl = CommandSpec.builder()
             .description(Text.of("Pearl Trail"))
             .permission("crazyfeet.pearl")
@@ -52,7 +47,6 @@ public class commandLoader {
             .executor(new pearl())
             .build();
 
-    // CrazyWitch <PlayerName> - Register and <PlayerName> is Optional
     private CommandSpec witch = CommandSpec.builder()
             .description(Text.of("witch Trail"))
             .permission("crazyfeet.witch")
@@ -87,13 +81,19 @@ public class commandLoader {
             .executor(new helix())
             .build();
 
+    private CommandSpec Gui = CommandSpec.builder()
+            .description(Text.of("Opens GUI"))
+            .permission("crazyFeet.guiUtil")
+            .executor(new gui())
+            .build();
+
 
     public CommandSpec crazyRoot = CommandSpec.builder()
             .description(Text.of("Root command for Crazyfeet"))
             .executor(new help())
             .permission("crazyfeet.base")
             .child(storm,"storm")
-            .child(fire,"fire")
+            .child(fire,"fire","flame")
             .child(hearts,"hearts","heart")
             .child(magic,"magic")
             .child(note,"note")
@@ -102,6 +102,7 @@ public class commandLoader {
             .child(smoke,"smoke")
             .child(witch,"witch")
             .child(Helix,"helix")
+            .child(Gui,"guiUtil","menu")
             .child(disable,"disable","remove","stop","none","off","clear")
             .build();
 }
